@@ -1,0 +1,196 @@
+default_config:
+
+frontend:
+  themes: !include_dir_merge_named themes
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+mqtt:
+  sensor:
+    - name: "Nhiệt độ phòng khách"
+      state_topic: "nha_thong_minh/cambien/nhiet_do"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      value_template: "{{ value | float }}"
+      expire_after: 300
+
+    - name: "Độ ẩm phòng khách"
+      state_topic: "nha_thong_minh/cambien/do_am"
+      unit_of_measurement: "%"
+      device_class: humidity
+      value_template: "{{ value | float }}"
+      expire_after: 300
+
+    - name: "Cường độ lửa (Analog)"
+      state_topic: "nha_thong_minh/cambien/lua_analog"
+      unit_of_measurement: "đơn vị"
+      icon: mdi:fire-alert
+
+    - name: "Nồng độ khí gas (Analog)"
+      state_topic: "nha_thong_minh/cambien/gas_analog"
+      unit_of_measurement: "m³"
+      expire_after: 300
+
+  binary_sensor:
+    - name: "Phát hiện chuyển động (Sân trước)"
+      state_topic: "nha_thong_minh/cambien/chuyen_dong"
+      payload_on: "1"
+      payload_off: "0"
+      device_class: motion
+      expire_after: 5
+      unique_id: cam_bien_chuyen_dong_san_truoc # ID duy nhất cho cảm biến này
+
+    - name: "Phát hiện rung động"
+      state_topic: "nha_thong_minh/cambien/rung"
+      payload_on: "1"
+      payload_off: "0"
+      device_class: vibration
+      expire_after: 5
+      unique_id: cam_bien_rung # ID duy nhất cho cảm biến này
+
+    - name: "Phát hiện lửa"
+      state_topic: "nha_thong_minh/cambien/lua"
+      payload_on: "1"
+      payload_off: "0"
+      device_class: smoke
+      expire_after: 5
+      unique_id: cam_bien_lua # ID duy nhất cho cảm biến này
+
+    - name: "Phát hiện rò rỉ gas"
+      state_topic: "nha_thong_minh/cambien/gas"
+      payload_on: "1"
+      payload_off: "0"
+      device_class: gas
+      expire_after: 5
+      unique_id: cam_bien_gas # ID duy nhất cho cảm biến này
+
+  select:
+    - name: "Còi - Sân trước"
+      unique_id: "che_do_coi_truoc"
+      state_topic: "nha_thong_minh/che_do_coi_truoc/state" 
+      command_topic: "nha_thong_minh/che_do_coi_truoc/set"
+      options:
+        - "TẮT"
+        - "BẬT KHI CÓ CHUYỂN ĐỘNG/RUNG"
+        - "LUÔN BẬT"
+      command_template: >
+        {% if value == "TẮT" %}
+          0
+        {% elif value == "BẬT KHI CÓ CHUYỂN ĐỘNG/RUNG" %}
+          1
+        {% elif value == "LUÔN BẬT" %}
+          2
+        {% else %}
+          0
+        {% endif %}
+      retain: true
+      icon: mdi:alarm-light
+
+    - name: "Còi - Phòng khách"
+      unique_id: "che_do_coi_phongkhach"
+      state_topic: "nha_thong_minh/che_do_coi_phongkhach/state" # Optional
+      command_topic: "nha_thong_minh/che_do_coi_phongkhach/set"
+      options:
+        - "TẮT"
+        - "BẬT KHI CÓ NGUY HIỂM"
+        - "LUÔN BẬT"
+      command_template: >
+        {% if value == "TẮT" %}
+          0
+        {% elif value == "BẬT KHI CÓ NGUY HIỂM" %}
+          1
+        {% elif value == "LUÔN BẬT" %}
+          2
+        {% else %}
+          0
+        {% endif %}
+      retain: true
+      icon: mdi:alarm-panel
+      
+    - name: "Đèn - Phòng khách"
+      unique_id: "che_do_den_phongkhach"
+      state_topic: "nha_thong_minh/den_phongkhach/state"
+      command_topic: "nha_thong_minh/den_phongkhach/set"
+      options:
+        - "TẮT"
+        - "SÁNG VỪA"
+        - "SÁNG MẠNH"
+      command_template: >
+        {% if value == "TẮT" %}
+          0
+        {% elif value == "SÁNG VỪA" %}
+          1
+        {% elif value == "SÁNG MẠNH" %}
+          2
+        {% else %}
+          0
+        {% endif %}
+      retain: true
+      icon: mdi:lightbulb-group
+
+    - name: "Đèn - Bếp"
+      unique_id: "che_do_den_bep"
+      state_topic: "nha_thong_minh/den_bep/state"
+      command_topic: "nha_thong_minh/den_bep/set"
+      options:
+        - "TẮT"
+        - "SÁNG VỪA"
+        - "SÁNG MẠNH"
+      command_template: >
+        {% if value == "TẮT" %}
+          0
+        {% elif value == "SÁNG VỪA" %}
+          1
+        {% elif value == "SÁNG MẠNH" %}
+          2
+        {% else %}
+          0
+        {% endif %}
+      retain: true
+      icon: mdi:lightbulb-group
+
+    - name: "Đèn - Phòng ngủ"
+      unique_id: "che_do_den_phongngu"
+      state_topic: "nha_thong_minh/den_phongngu/state"
+      command_topic: "nha_thong_minh/den_phongngu/set"
+      options:
+        - "TẮT"
+        - "SÁNG VỪA"
+        - "SÁNG MẠNH"
+      command_template: >
+        {% if value == "TẮT" %}
+          0
+        {% elif value == "SÁNG VỪA" %}
+          1
+        {% elif value == "SÁNG MẠNH" %}
+          2
+        {% else %}
+          0
+        {% endif %}
+      retain: true
+      icon: mdi:lightbulb-night
+
+    - name: "Đèn - Phòng xe"
+      unique_id: "che_do_den_phongxe"
+      state_topic: "nha_thong_minh/den_phongxe/state"
+      command_topic: "nha_thong_minh/den_phongxe/set"
+      options:
+        - "TẮT"
+        - "SÁNG VỪA"
+        - "SÁNG MẠNH"
+      command_template: >
+        {% if value == "TẮT" %}
+          0
+        {% elif value == "SÁNG VỪA" %}
+          1
+        {% elif value == "SÁNG MẠNH" %}
+          2
+        {% else %}
+          0
+        {% endif %}
+      retain: true
+      icon: mdi:car-garage
+
+ 
+     
