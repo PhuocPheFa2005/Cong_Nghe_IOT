@@ -11,5 +11,6 @@
 <h3>Nội Dung Trong File</h3>
 <ul>
   <li>File <kbd><b> CODE SMARTHOME (Arduino) </b></kbd></li>
+  <p>- Chứa file ardunio <kbd><b> code_smart_home.ino </b></kbd> </p>
   <li>**<kbd>mainflux-0.21.0</kbd>**</li>
 </ul>
