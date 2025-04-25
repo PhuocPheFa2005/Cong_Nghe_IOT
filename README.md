@@ -12,5 +12,6 @@
 <ul>
   <li>File <kbd><b> CODE SMARTHOME (Arduino) </b></kbd></li>
   <p>- Chứa file ardunio <kbd><b> code_smart_home.ino </b></kbd> </p>
-  <li>**<kbd>mainflux-0.21.0</kbd>**</li>
+  <li>File <kbd><b> smarthome </b></kbd> là file chính để chạy flatform từ Docker</li>
+  <p>- Trong file bao gồm 3 file con chính: <kbd><b> config </b></kbd> <kbd><b> mosquitto </b> </kbd><kbd><b> docker-compose.yml </b></kbd>  </p>
 </ul>
