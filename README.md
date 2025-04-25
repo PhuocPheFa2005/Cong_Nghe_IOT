@@ -10,6 +10,6 @@
 
 <h3>Nội Dung Trong File</h3>
 <ul>
-  <ol>File <kbd><b> CODE SMARTHOME (Arduino) </b></kbd></li>
-  <li>**<kbd>mainflux-0.21.0</kbd>**</li>
+  <ol>File <kbd><b> CODE SMARTHOME (Arduino) </b></kbd></ol>
+  <ol>**<kbd>mainflux-0.21.0</kbd>**</ol>
 </ul>
